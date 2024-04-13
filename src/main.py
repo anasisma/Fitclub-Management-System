@@ -1,5 +1,7 @@
 from member_control_funcs import *
 from trainer_control_funcs import *
+from admin_control_funcs import *
+import psycopg2
 
 # values to modify to establish the connection
 db = "FinalProj"
@@ -147,3 +149,35 @@ while True:
         else:
             print("Please enter a valid selection.")            
             
+    elif isLoggedIn(currSession) and (getRole(currSession) == 'a'):
+        print()
+        print("Options:")
+        print("1: Room booking management.")
+        print("2: Equipment maintenance monitoring.")
+        print("3: Class Schedule Updating.")
+        print("4: Billing and payment processing.")
+        print("0: Log out of account.")
+        print("q: Exit the program.")
+
+        user_input = input("Please enter your selection: ")
+        print()
+        
+        if user_input == "1":
+            roomManagement(currSession, conn)
+            
+        elif user_input == "2":
+            equip_maintenance(currSession, conn)
+            
+        # elif user_input == "3":
+        #     scheduleManagement(currSession, conn)
+            
+        # elif user_input == "4":
+        #     scheduleManagement(currSession, conn)
+            
+        elif user_input == "0":
+            currSession = logout()
+                
+        elif user_input == "q":
+            break
+        else:
+            print("Please enter a valid selection.")

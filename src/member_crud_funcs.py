@@ -1,4 +1,3 @@
-import psycopg2
 from datetime import datetime
 import random
 
@@ -67,7 +66,7 @@ def measureMetrics(userId, conn):
         cur = conn.cursor()
         cur.execute(f""" 
             INSERT INTO HealthMetrics (member_id, measurement_date, body_weight, body_fat, muscle_mass, blood_pressure) 
-            VALUES ('{userId}', '{measure_date}', '{round(random.uniform(45, 100), 1)}', '{round(random.uniform(5, 40) / 100, 1)}', '{round(random.uniform(30, 100), 1)}', '{round(random.randint(90, 140))}') """)
+            VALUES ('{userId}', '{measure_date}', '{round(random.uniform(45, 100), 1)}', '{round(random.uniform(5, 40), 1)}', '{round(random.uniform(30, 100), 1)}', '{round(random.randint(90, 140))}') """)
 
         cur.close()
         return True
@@ -127,62 +126,43 @@ def updateFitnessGoal(member_id, new_date, new_target, conn):
 
 # Function for deleting current user's fitness goal
 def deleteFitnessGoal(member_id, conn):
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    # check if a goal with the given id exists
-    cur.execute(f"SELECT * FROM FitnessGoals WHERE member_id = {member_id}")
-    goal = cur.fetchone() # only fetch one row since the id is unique, which means there can only ever be one result to the select statement
+        # check if a goal with the given id exists
+        cur.execute(f"SELECT * FROM FitnessGoals WHERE member_id = {member_id}")
+        goal = cur.fetchone() # only fetch one row since the id is unique, which means there can only ever be one result to the select statement
 
-    # execute and commit the DELETE statement
-    if goal:
-        cur.execute(f"""DELETE FROM FitnessGoals WHERE member_id = {member_id}""")
-        return True
-    
-    # if the function reaches this, then there was no row in the select statement
-    print("You did not have a fitness goal. Did you mean to create a new one?")
-    return False
+        # execute and commit the DELETE statement
+        if goal:
+            cur.execute(f"""DELETE FROM FitnessGoals WHERE member_id = {member_id}""")
+            return True
+        
+        # if the function reaches this, then there was no row in the select statement
+        print("You did not have a fitness goal. Did you mean to create a new one?")
+        return False
+    except Exception as e:
+        print(f"Error: {e}")
+        cur.close()
+        return False
 
 # Function to view current logged in user's personal information
 def viewUserInfo(userId, conn):
-    cur = conn.cursor()
-
-    # get the rows using the cursor
-    cur.execute(f"SELECT * FROM Members WHERE member_id = {userId}")
-    existing_member = cur.fetchone() # only fetch one row since the id is unique, which means there can only ever be one result to the select statement
-
-    if existing_member:
-            print("Personal Information:")
-            print("First Name:", existing_member[1], ", Last Name:", existing_member[2])
-            print("Email:", existing_member[3])
-            print("Date of Birth:", existing_member[5])
-            print("Enrollment Date:", existing_member[6])
-    else:
-        print('There was an error retreiving your personal information.')
-
-def login(email, conn):
     try:
-        # check if a member with the given email exists
         cur = conn.cursor()
-        cur.execute(f"SELECT * FROM Members WHERE email = '{email}'") 
-        member = cur.fetchone() # only fetch one row since the email is unique, which means there can only ever be one result to the select statement
-        
-        # Make the user input the password, and if correct, then make the global session variable represent the currently logged in user
-        if member:
-            password = input("Please enter your password: ")
-            if member[4] == password:
-                cur.close()
-                return member
-            else:
-                print("Incorrect password.")
-                cur.close()
-                return None
-        
+
+        # get the rows using the cursor
+        cur.execute(f"SELECT * FROM Members WHERE member_id = {userId}")
+        existing_member = cur.fetchone() # only fetch one row since the id is unique, which means there can only ever be one result to the select statement
+
+        if existing_member:
+                print("Personal Information:")
+                print("First Name:", existing_member[1], ", Last Name:", existing_member[2])
+                print("Email:", existing_member[3])
+                print("Date of Birth:", existing_member[5])
+                print("Enrollment Date:", existing_member[6])
         else:
-            # if the function reaches this, then there was no row in the select statement
-            print("There is no member with this email. Did you mean to register?")
-            cur.close()
-            return None
-        
+            print('There was an error retreiving your personal information.')
     except Exception as e:
         print(f"Error: {e}")
         cur.close()
@@ -190,17 +170,22 @@ def login(email, conn):
     
 # Function to view health metrics of logged in user
 def viewRoutines(userId, conn):
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    # get the rows using the cursor
-    cur.execute(f"SELECT * FROM ExerciseRoutines WHERE member_id = {userId}")
-    # make a list of rows from the cursor
-    rows = cur.fetchall()
+        # get the rows using the cursor
+        cur.execute(f"SELECT * FROM ExerciseRoutines WHERE member_id = {userId}")
+        # make a list of rows from the cursor
+        rows = cur.fetchall()
 
-    print("Your workout routines are:")
-    # print all the rows
-    for row in rows:
-        print(f"Name: {row[2]}, description: {row[3]}")
+        print("Your workout routines are:")
+        # print all the rows
+        for row in rows:
+            print(f"Name: {row[2]}, description: {row[3]}")
+    except Exception as e:
+        print(f"Error: {e}")
+        cur.close()
+        return False
 
 # Function to view fitness achievements of user  
 def viewAchievements(userId, conn):
@@ -275,6 +260,9 @@ def selectAvailability(userId, avail_id, conn):
             # add this new session into the sessions table
             cur.execute(f""" INSERT INTO TrainingSessions (member_id, trainer_id, week_day, start_time, end_time) VALUES 
                 ('{userId}', '{avail[1]}', '{avail[2]}', '{avail[3]}', '{avail[4]}') """)
+            # create new entry in Bills table for this member to pay
+            cur.execute(f"""INSERT INTO Bills (member_id, amount) VALUES
+                        ({userId}, {round(random.uniform(30, 100), 2)})""")
             cur.close()
             return True
         else:

@@ -1,4 +1,3 @@
-import psycopg2
 from datetime import datetime
 
 # function to check if date input is valid

@@ -113,7 +113,7 @@ CREATE TABLE EquipmentMaintenance (
 CREATE TABLE Bills (
     bill_id SERIAL PRIMARY KEY,
     member_id INTEGER REFERENCES Members(member_id) NOT NULL,
-    admin_id INTEGER REFERENCES Admins(admin_id),
+    admin_id INTEGER REFERENCES Admins(admin_id) DEFAULT NULL,
     amount DECIMAL NOT NULL,
     bill_status VARCHAR(1) NOT NULL DEFAULT 'u' CHECK (bill_status IN ('u', 'p'))
 );
