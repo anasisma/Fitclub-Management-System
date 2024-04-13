@@ -1,10 +1,10 @@
 INSERT INTO Members (first_name, last_name, email, password, date_of_birth, enrollment_date, member_role)
 VALUES ('First', 'Memb', 'first@email.com', 'p1', '1990-05-15', '2024-04-01', 'm'),
     ('Second', 'Membe', 'second@email.com', 'p2', '1985-08-21', '2024-04-02', 'm'),
-    ('Third', 'Member', 'third@email.com', 'p3', '1995-03-10', '2024-04-03', 'm'),
+    ('Third', 'Member', 'm', 'm', '1995-03-10', '2024-04-03', 'm'),
     ('Fourth', 'Train', 'fourth@email.com', 'p4', '1982-11-30', '2024-04-04', 't'),
-    ('Fifth', 'Trainer', 'fifth@email.com', 'p5', '1993-07-25', '2024-04-05', 't'),
-    ('Sixth', 'Admin', 'sixth@email.com', 'p6', '1978-12-20', '2024-04-06', 'a');
+    ('Fifth', 'Trainer', 't', 't', '1993-07-25', '2024-04-05', 't'),
+    ('Sixth', 'Admin', 'a', 'a', '1978-12-20', '2024-04-06', 'a');
 
 
 INSERT INTO Trainers (member_id) VALUES (4), (5);
