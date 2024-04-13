@@ -165,3 +165,84 @@ def maintainEquip(equip_id, userId, maintenance_date, conn):
         print(f"Error: {e}")
         cur.close()
         return False
+    
+# Function to get all open fitness classes
+def viewClasses(conn):
+    try:
+        cur = conn.cursor()
+
+        # get the rows using the cursor
+        cur.execute(f"SELECT * FROM GroupClasses")
+        # make a list of rows from the cursor
+        rows = cur.fetchall()
+        cur.close()
+        
+        if (rows):
+            print("The group fitness classes are: ")
+            # print all the rows
+            for row in rows:
+                print(f"{row[0]}: Weekday: {row[2]}, start time: {row[3]}, end time: {row[4]}")
+            return rows
+        else:
+            return None
+    except Exception as e:
+        print(f"Error: {e}")
+        cur.close()
+        return None
+
+# function to modify specified attribute of a class
+def modifyClass(class_id, change, new_value, conn):
+    try:
+        cur = conn.cursor()
+
+        # set the new value using the cursor
+        cur.execute(f"UPDATE GroupClasses SET {change} = '{new_value}' WHERE class_id = {class_id}")
+        print("The class has been updated.")
+        cur.close()
+    except Exception as e:
+        print(f"Error: {e}")
+        cur.close()
+        return None
+    
+# Function to get all bills
+def viewBills(conn):
+    try:
+        cur = conn.cursor()
+
+        # get the rows using the cursor
+        cur.execute(f"SELECT * FROM Bills")
+        # make a list of rows from the cursor
+        rows = cur.fetchall()
+        cur.close()
+        
+        if (rows):
+            print("Here is the bill history of the fitness club: ")
+            # print all the rows
+            for row in rows:
+                
+                # based on the value of bill_status, the bill is paid or unpaid
+                state = row[4]
+                if (state == 'u'):
+                    state = 'Unpaid'
+                elif (state == 'p'):
+                    state = 'Paid'
+                
+                print(f"Bill {row[0]}: Charged to member id: {row[1]}, amount: {row[3]}, status: {state}")
+            return rows
+        else:
+            return None
+    except Exception as e:
+        print(f"Error: {e}")
+        cur.close()
+        return None
+
+# Function to change payment status of specified bill
+def handleBill(user_input, status, userId, conn):
+    adminId = getAdminId(userId, conn)
+    try:
+        cur = conn.cursor()
+        cur.execute(f"""UPDATE Bills SET bill_status = '{status}', admin_id = '{adminId}' WHERE bill_id = '{user_input}'""")
+    except Exception as e:
+        print(f"Error: {e}")
+        cur.close()
+        return None

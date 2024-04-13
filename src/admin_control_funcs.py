@@ -79,7 +79,7 @@ def equip_maintenance(currSession, conn):
         else:
             print("Please enter a valid selection.")
             
-def scheduleManagement(currSession, conn):
+def classManagement(conn):
     while True:
         print()
         print("Welcome to class schedule management. Here are your options:")
@@ -91,11 +91,46 @@ def scheduleManagement(currSession, conn):
         print()
         
         if user_input == "1":
-            if not (viewAvailabilities(currSession[0], conn)):
-                print("You currently have no availabilities.")
+            if not (viewClasses(conn)):
+                print("There are no group fitness classes.")
         
         elif user_input == '2':
-            addAvail(currSession[0], conn)
+            if not (viewClasses(conn)):
+                print("There are no group fitness classes.")
+            else:
+                user_input = input("Please enter the ID of the class to modify: ")
+                change = input("Please enter what would you like to modify: ")
+                new_value = input("Please enter the desired new value: ")
+                modifyClass(user_input, change, new_value, conn)
+        
+        elif user_input == 'b':
+            break
+        
+        else:
+            print("Please enter a valid selection.")
+            
+def billManagement(curSession, conn):
+    while True:
+        print()
+        print("Welcome to bill/payment management. Here are your options:")
+        print("1: Viewing all bills.")
+        print("2: Handling payment of a bill.")
+        print("b: Go back to previous menu.")
+        
+        user_input = input("Please enter your selection: ")
+        print()
+        
+        if user_input == "1":
+            if not (viewBills(conn)):
+                print("There are no recorded bills.")
+        
+        elif user_input == '2':
+            if not (viewBills(conn)):
+                print("There are no recorded bills.")
+            else:
+                user_input = input("Please enter the ID of the bill to handle: ")
+                status = input("Please enter the new status of the bill (u/p): ")
+                handleBill(user_input, status, curSession[0], conn)
         
         elif user_input == 'b':
             break
