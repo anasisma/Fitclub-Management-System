@@ -81,14 +81,13 @@ def viewFitnessGoal(userId, conn):
 
     # check if a member with the given id exists
     cur.execute(f"SELECT * FROM FitnessGoals WHERE member_id = {userId}")
-    goal = cur.fetchone() # only fetch one row since the id is unique, which means there can only ever be one result to the select statement
+    goals = cur.fetchall() # only fetch one row since the id is unique, which means there can only ever be one result to the select statement
 
-    if goal:
-            print("Your current fitness goal:")
-            print("Target weight:", goal[3])
-            print("Target date for this goal:", goal[2])
+    if goals:
+        for row in goals:
+            print(f"Goal {row[0]}: Target weight:, {row[3]}, Target date for this goal: {row[2]}")
     else:
-        print('There was an error retreiving your fitness goal.')
+        print('There was an error retreiving your fitness goals.')
 
 # Function to add a fitness goal for a member
 def addFitnessGoal(userId, target_date, target_value, conn):
@@ -103,20 +102,6 @@ def addFitnessGoal(userId, target_date, target_value, conn):
         cur.execute(f"""INSERT INTO FitnessGoals (member_id, target_date, target_value) 
                        VALUES ('{userId}', '{target_date}', '{target_value}')""")
 
-        cur.close()
-        return True
-    except Exception as e:
-        print(f"Error: {e}")
-        cur.close()
-        return False
-
-# Function to update a fitness goal
-def updateFitnessGoal(member_id, new_date, new_target, conn):
-    try:
-        # Execute the UPDATE statement using the cursor
-        cur = conn.cursor()
-        cur.execute(f"UPDATE FitnessGoals SET target_date = '{new_date}', target_value = '{new_target}' WHERE member_id = {member_id}")
-        print("Fitness goal updated successfully.")
         cur.close()
         return True
     except Exception as e:

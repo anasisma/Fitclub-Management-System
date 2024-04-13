@@ -53,8 +53,7 @@ def fitnessManagement(currSession, conn):
         print("Welcome to fitness goal management. Here are your options:")
         print("1: Viewing current fitness goal.")
         print("2: Adding a fitness goal.")
-        print("3: Update your fitness goal.")
-        print("4: Delete your fitness goal.")
+        print("4: Deleting a fitness goal.")
         print("b: Go back to previous menu.")
         
         user_input = input("Please enter your selection: ")
@@ -68,16 +67,10 @@ def fitnessManagement(currSession, conn):
             goal = input("Please enter the weight goal: ")
             if(addFitnessGoal(currSession[0], date, goal, conn)):
                 print("Fitness goal added successfully!")
-            
-        elif user_input == '3':
-            new_date = input("Please enter your new target date (format is YYYY-MM-DD): ")
-            new_goal = input("Please enter the new weight goal: ")
-            if(updateFitnessGoal(currSession[0], new_date, new_goal, conn)):
-                print("Fitness goal modified successfully!")
                 
         elif user_input == '4':
             if (deleteFitnessGoal(currSession[0], conn)):
-                print("Your fitness goal has been successfully deleted.")
+                print("Your oldest fitness goal has been successfully deleted.")
         
         elif user_input == 'b':
             break
