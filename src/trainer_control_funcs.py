@@ -1,6 +1,6 @@
 from trainer_crud_funcs import *
             
-def scheduleManagement(currSession, conn):
+def trainerScheduleManagement(currSession, conn):
     while True:
         print()
         print("Welcome to schedule management. Here are your options:")

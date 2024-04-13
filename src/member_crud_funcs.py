@@ -356,6 +356,9 @@ def joinClass(userId, class_id, conn):
             # add a new registration entry, to represent the member being in the class, into the registrations table
             cur.execute(f""" INSERT INTO Registrations (member_id, class_id) VALUES 
                 ('{userId}', '{class_id}') """)
+            # create new entry in Bills table for this member to pay
+            cur.execute(f"""INSERT INTO Bills (member_id, amount) VALUES
+                        ({userId}, {round(random.uniform(30, 100), 2)})""")
             cur.close()
             return True
         else:

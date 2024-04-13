@@ -155,7 +155,7 @@ def achievementManagement(currSession, conn):
         else:
             print("Please enter a valid selection.")     
             
-def scheduleManagement(currSession, conn):
+def memberScheduleManagement(currSession, conn):
     while True:
         print()
         print("Welcome to schedule management. Here are your options:")

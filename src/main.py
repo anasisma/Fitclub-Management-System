@@ -113,7 +113,7 @@ while True:
             dashboard(currSession, conn)
             
         elif user_input == "3":
-            scheduleManagement(currSession, conn)
+            memberScheduleManagement(currSession, conn)
             
         elif user_input == "0":
             currSession = logout()
@@ -135,7 +135,7 @@ while True:
         print()
         
         if user_input == "1":
-            scheduleManagement(currSession, conn)
+            trainerScheduleManagement(currSession, conn)
             
         elif user_input == "2":
             profileViewing(conn)
@@ -168,11 +168,11 @@ while True:
         elif user_input == "2":
             equip_maintenance(currSession, conn)
             
-        # elif user_input == "3":
-        #     scheduleManagement(currSession, conn)
+        elif user_input == "3":
+            classManagement(conn)
             
-        # elif user_input == "4":
-        #     scheduleManagement(currSession, conn)
+        elif user_input == "4":
+            billManagement(currSession, conn)
             
         elif user_input == "0":
             currSession = logout()
