@@ -1,5 +1,11 @@
 # Fitclub-Management-System
 
+The Fitness Club Management System is a comprehensive application designed to manage the backend of the club to cater to the diverse needs of club members, trainers, and administrative staff. It serves as a centralized platform where members can register, set fitness goals, track their progress, schedule personal training sessions, and participate in group fitness classes. Trainers can manage their schedules, view member profiles, and provide personalized training sessions. Administrative staff have access to features for managing room bookings, equipment maintenance, class schedules, billing, and payments.
+
+## Technologies Used:
+- Python: Backend development.
+- PostgreSQL: Database management.
+
 ## Video Demo:
 https://www.youtube.com/watch?v=d6FfVHY5sjs
 
