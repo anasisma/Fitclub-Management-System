@@ -1,6 +1,6 @@
 # Fitclub-Management-System
 
-The Fitness Club Management System is a comprehensive application designed for the backend management of the Fitness Club. It serves as a centralized platform where members can register, set fitness goals, track their progress, schedule personal training sessions, and participate in group fitness classes. Trainers can manage their schedules, view member profiles, and provide personalized training sessions. Administrative staff have access to features for managing room bookings, equipment maintenance, class schedules, billing, and payments.
+The Health and Fitness Club Management System CLI is a command-line application developed in Python, serving as a comprehensive tool for managing various aspects of a health and fitness club. It provides functionalities for club members to register, set fitness goals, track their progress, schedule personal training sessions, and participate in group fitness classes. Trainers can manage their schedules, view member profiles, and provide personalized training sessions. Administrative staff have access to features for managing room bookings, equipment maintenance, class schedules, billing, and payments.
 
 ## Technologies Used:
 - Python: Backend development.
